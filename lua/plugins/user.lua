@@ -1,60 +1,45 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- ~/.config/nvim/lua/plugins/user.lua
 
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
--- Here are some examples:
+-- Você pode adicionar ou configurar plugins criando arquivos nesta pasta `plugins/`
+-- POR FAVOR, REMOVA OS EXEMPLOS QUE VOCÊ NÃO TEM INTERESSE ANTES DE ATIVAR ESTE ARQUIVO
+-- Aqui estão alguns exemplos:
 
----@type LazySpec
 return {
+  -- == Exemplos de Sobrescrever Plugins ==
 
-
-
-  -- == Examples of Adding Plugins ==
-
-  "andweeb/presence.nvim",
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
-  },
-  
-  
-
-  -- == Examples of Overriding Plugins ==
-
-  -- customize dashboard options
+  -- personalizar opções do dashboard
   {
     "folke/snacks.nvim",
     opts = {
       dashboard = {
         preset = {
           header = table.concat({
-            " █████  ███████ ████████ ██████   ██████ ",
-            "██   ██ ██         ██    ██   ██ ██    ██",
-            "███████ ███████    ██    ██████  ██    ██",
-            "██   ██      ██    ██    ██   ██ ██    ██",
+                   " █████  ███████ ████████ ██████   ██████ ",
+            "██   ██ ██         ██    ██  ██   ██  ██",
+            "███████ ███████    ██    ██████   ██  ██",
+            "██   ██      ██    ██    ██  ██   ██  ██",
             "██   ██ ███████    ██    ██   ██  ██████ ",
             "",
-            "███    ██ ██    ██ ██ ███    ███",
-            "████   ██ ██    ██ ██ ████  ████",
-            "██ ██  ██ ██    ██ ██ ██ ████ ██",
-            "██  ██ ██  ██  ██  ██ ██  ██  ██",
-            "██   ████   ████   ██ ██      ██",
+            "███    ██ ██   ██ ██  █████  ██",
+            "████   ██ ██   ██ ██  ██  ██  ██",
+            "██ ██  ██ ██   ██ ██  ██   ██ ██",
+            "██  ██ ██  ██ ██  ██  ██    ████",
+            "██   ████   ███   ██  ██    ██",
           }, "\n"),
         },
       },
     },
   },
 
-  -- You can disable default plugins as follows:
+  -- Você pode desabilitar plugins padrão da seguinte forma:
   { "max397574/better-escape.nvim", enabled = false },
 
-  -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
+  -- Você também pode personalizar facilmente a configuração adicional de plugins que está fora da chamada de configuração do plugin
   {
     "L3MON4D3/LuaSnip",
     config = function(plugin, opts)
-      require "astronvim.plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
-      -- add more custom luasnip configuration such as filetype extend or custom snippets
+      require "astronvim.plugins.configs.luasnip"(plugin, opts) -- inclui a configuração padrão do astronvim que chama a função de configuração
+      -- adicione mais configurações personalizadas do luasnip, como extensão de tipo de arquivo ou snippets personalizados
       local luasnip = require "luasnip"
       luasnip.filetype_extend("javascript", { "javascriptreact" })
     end,
@@ -63,33 +48,30 @@ return {
   {
     "windwp/nvim-autopairs",
     config = function(plugin, opts)
-      require "astronvim.plugins.configs.nvim-autopairs"(plugin, opts) -- include the default astronvim config that calls the setup call
-      -- add more custom autopairs configuration such as custom rules
+      require "astronvim.plugins.configs.nvim-autopairs"(plugin, opts) -- inclui a configuração padrão do astronvim que chama a função de configuração
+      -- adicione mais configurações personalizadas do autopairs, como regras personalizadas
       local npairs = require "nvim-autopairs"
       local Rule = require "nvim-autopairs.rule"
       local cond = require "nvim-autopairs.conds"
       npairs.add_rules(
         {
           Rule("$", "$", { "tex", "latex" })
-            -- don't add a pair if the next character is %
+            -- não adicione um par se o próximo caractere for %
             :with_pair(cond.not_after_regex "%%")
-            -- don't add a pair if  the previous character is xxx
+            -- não adicione um par se o caractere anterior for xxx
             :with_pair(
               cond.not_before_regex("xxx", 3)
             )
-            -- don't move right when repeat character
+            -- não mova para a direita quando repetir o caractere
             :with_move(cond.none())
-            -- don't delete if the next character is xx
+            -- não exclua se o próximo caractere for xx
             :with_del(cond.not_after_regex "xx")
-            -- disable adding a newline when you press <cr>
+            -- desabilite a adição de uma nova linha ao pressionar <cr>
             :with_cr(cond.none()),
         },
-        -- disable for .vim files, but it work for another filetypes
+        -- desabilitar para arquivos .vim, mas funciona para outros tipos de arquivo
         Rule("a", "a", "-vim")
       )
     end,
   },
-
-  
 }
-
